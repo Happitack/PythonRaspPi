@@ -3,13 +3,6 @@
 from sense_hat import SenseHat
 import time, converter, sys, signal
 
-#Sets up the list of arguments
-argumentList = sys.argv[1:]
-
-def signal_term_handler(signal, frame):
-    print('got SIGTERM')
-    sys.exit(0)
-
 def main():
     ##Colors
     white = (255, 255, 255)
@@ -31,8 +24,7 @@ def main():
     # A value of '1' is horizontal
     # A value of '0' is vertical
     direction = 1
-
-    sh.show_message("Programmet starter", text_colour=white, scroll_speed = 0.1)
+    sh.show_message("Programmet starter", text_colour=white, scroll_speed = 0.05)
     #Loop
     while loop == True:
         hour = time.localtime().tm_hour
@@ -81,22 +73,12 @@ def main():
                 direction = 0 
                 changeHourFormat=1
             elif event.direction == "middle":
-                sh.show_message("Programmet slutter", text_colour=white, scroll_speed = 0.1)
+                sh.show_message("Programmet slutter", text_colour=white, scroll_speed = 0.05)
                 sh.clear()
-                signal.signal(signal.SIGTERM, signal_term_handler)
                 loop = False
             sh.clear()  
         time.sleep(0.1)
+        
 
 if __name__ == '__main__':
     exit(main())          
-
-
-#cd /lib/systemd/system/
-#sudo nano hello.service
-
-#sudo chmod 644 /lib/systemd/system/hello.service
-#chmod +x /home/pi/hello_world.py
-#sudo systemctl daemon-reload
-#sudo systemctl enable hello.service
-#sudo systemctl start hello.service
